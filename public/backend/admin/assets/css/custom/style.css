@@ -1,0 +1,178 @@
+body{
+    font-family: sans-serif;
+}
+.points{
+    background: none;
+    border: none;
+}
+.points{
+    border: 1px solid lightcoral;
+}
+
+.dark,.light{
+    transition: all 0.2s ease-in-out;
+}
+
+.dark:hover,
+.light:hover{
+    background-color: white;
+}
+
+.logo_btn{
+    height: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.logo_btn:hover{
+    background-color: lightpink;
+    color: white;
+}
+
+.social-btn{
+    transition: all 0.2s ease-in-out;
+}
+
+.social-btn:hover{
+    background: lightpink;
+    color: #ffffff;
+}
+
+.crt-btn{
+    transition: all 0.2s ease-in-out;
+}
+
+.crt-btn:hover{
+    background: lightpink;
+    color: #ffffff;
+}
+
+.client-btn{
+    transition: all 0.2s ease-in-out;
+}
+
+.client-btn:hover{
+    background-color: lightpink;
+    color: white;
+}
+
+.fav{
+    transition: all 0.2s ease-in-out;
+}
+
+.fav:hover{
+    background-color: white;
+}
+
+.fav_u{
+    font-size: 18px;
+    color: white;
+    margin-left: 3px;
+    display: inline-flex;
+    visibility: hidden;
+}
+
+.fav:hover ~ .fav_u{
+    visibility: visible;
+}
+
+.logo_l{
+    font-size: 18px;
+    color: white;
+    margin-left: 3px;
+    display: inline-flex;
+    visibility: hidden;
+}
+
+.light:hover ~ .logo_l{
+    visibility: visible;
+}
+
+.logo_d{
+    font-size: 18px;
+    color: white;
+    margin-left: 3px;
+    display: inline-flex;
+    visibility: hidden;
+}
+
+.dark:hover ~ .logo_d{
+    visibility: visible;
+}
+
+{
+    transform: translateY(8rem) rotateZ(20deg);
+}
+
+
+
+.trash{
+    width: 36px;
+    height: 36px;
+    position: relative;
+}
+
+.trash:hover{
+    color: white;
+}
+
+.copy{
+    width: 36px;
+    height: 36px;
+}
+
+.copy:hover{
+    color: white;
+}
+
+.slider-video{
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-video:hover{
+    background-color: white;
+}
+
+#slider_video_load{
+    width: 200px;
+    height: 100px;
+    float: left;
+    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.7);
+}
+
+.sv-button:hover{
+    background-color: lightpink;
+    color: white;
+}
+
+#card{
+    border-radius: 5px;
+}
+
+#card_body{
+    height: 300px;
+    width: 100%;
+    position: relative;
+}
+
+.slider{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.copy_remove_btn{
+    float: right;
+}
+.copy_remove_btn a{
+    margin-right: 10px;
+}
+
