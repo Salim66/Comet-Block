@@ -13,4 +13,8 @@ class FrontEndController extends Controller
     public function homePage(){
         return view('frontend.post.home');
     }
+
+    public function homeClassicPage(){
+        return view('frontend.post.home-classic');
+    }
 }

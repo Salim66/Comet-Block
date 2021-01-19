@@ -235,6 +235,8 @@
         $(document).on('change', '#trail', function(e){
            if($(this).val() == 'video'){
                $('#comet_slider_modal').modal('show');
+           }else if ($(this).val() == 'carousel'){
+               $('#comet_carosul_slider_modal').modal('show');
            }
         });
 
@@ -246,7 +248,7 @@
         });
 
 
-        //Slider Show
+        //Block Slider Live Show
         $(document).on('click', '#show_slider', function(e){
             // e.preventDefault();
             const slider_id = $(this).attr('edit_id');
@@ -348,6 +350,172 @@
         });
 
 
+        //Carousel Image Load
+        function imageLoad(img_id, img_loc){
+           $(img_id).change(function (e){
+              const image_url = URL.createObjectURL(e.target.files[0]);
+              $(img_loc).attr('src', image_url);
+           });
+        }
+
+
+        //Carousel Slider Script
+        $(document).on('click', '#comet-add-carousel-slide', function (e){
+            e.preventDefault();
+            const rand = Math.floor(Math.random() * 10000);
+            $('.comet-carosul-slider-container').append('<div class="card shadow" id="slider-card-'+rand+'">\n' +
+                '                                                <div class="card-header ch" style="cursor: pointer;" data-toggle="collapse" data-target="#slide-'+rand+'"><h4>#Slider '+rand+'<span class="copy_remove_btn"><a id="comet-carousel-slide-copy-btn" copy_id='+rand+' href="#"><svg class="svg-inline--fa fa-copy fa-w-14 text-secondary" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg><!-- <i class="fas fa-copy text-secondary" aria-hidden="true"></i> --></a><a id="comet-carousel-slide-remove-btn" remove_id='+rand+' href="#"><svg class="svg-inline--fa fa-trash fa-w-14 text-secondary" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash text-secondary" aria-hidden="true"></i> --></a></span></h4></div>\n' +
+                '                                                <div id="slide-'+rand+'" class="collapse">\n' +
+                '                                                    <div class="card-body">\n' +
+                '                                                        <div class="row">\n' +
+                '                                                            <div class="col-lg-5">\n' +
+                '                                                                <div class="form-group">\n' +
+                '                                                                    <label for="carousel_image'+rand+'" class="img_file"><i class="fas fa-image fa-3x text-success"></i></label><span class="up">Upload Image</span>\n' +
+                '                                                                    <input name="image[]" type="file" class="form-control d-none" id="carousel_image'+rand+'" image_file='+rand+'>\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                            <div class="col-lg-5">\n' +
+                '                                                                <div class="form-group">\n' +
+                '                                                                    <img src="" id="carousel_file'+rand+'" alt="" style="width: 150px; height: 100px;" class="shadow">\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Title</label>\n' +
+                '                                                            <input name="title[]" type="text" class="form-control" title='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Sub Title</label>\n' +
+                '                                                            <input name="sub_title[]" type="text" class="form-control" subtitle='+rand+'>\n' +
+                '                                                            <input name="slide_code[]" type="hidden" class="form-control" value='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 01 Title</label>\n' +
+                '                                                            <input name="btn_title_one[]" type="text" class="form-control" btn_title_one='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 01 Link</label>\n' +
+                '                                                            <input name="btn_link_one[]" type="text" class="form-control" btn_link_one='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 02 Title</label>\n' +
+                '                                                            <input name="btn_title_two[]" type="text" class="form-control" btn_title_two='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 02 Link</label>\n' +
+                '                                                            <input name="btn_link_two[]" type="text" class="form-control" btn_link_two='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                    </div>\n' +
+                '                                                </div>\n' +
+                '                                            </div>');
+            imageLoad('#carousel_image'+rand+'', '#carousel_file'+rand+'');
+        });
+
+        //Remove Carousel Slider Script
+        $(document).on('click', '#comet-carousel-slide-remove-btn', function (e){
+            e.preventDefault();
+            const remove_id = $(this).attr('remove_id');
+            $('#slider-card-'+remove_id).remove();
+            return false;
+        });
+
+
+
+        //Copy Carousel Slider Script
+        $(document).on('click', '#comet-carousel-slide-copy-btn', function (e){
+            e.preventDefault();
+            const copy_id = $(this).attr('copy_id');
+            const image_file = $('input[image_file='+copy_id+']').val();
+            const title = $('input[title='+copy_id+']').val();
+            const sub_title = $('input[subtitle='+copy_id+']').val();
+            const slide_code = $('input[value='+copy_id+']').val();
+            const btn_title_one = $('input[btn_title_one='+copy_id+']').val();
+            const btn_title_two = $('input[btn_title_two='+copy_id+']').val();
+            const btn_link_one = $('input[btn_link_one='+copy_id+']').val();
+            const btn_link_two = $('input[btn_link_two='+copy_id+']').val();
+            const rand = Math.floor(Math.random() * 10000);
+
+            $('.comet-carosul-slider-container').append('<div class="card shadow" id="slider-card-'+rand+'">\n' +
+                '                                                <div class="card-header ch" style="cursor: pointer;" data-toggle="collapse" data-target="#slide-'+rand+'"><h4>#Slider '+rand+'<span class="copy_remove_btn"><a id="comet-carousel-slide-copy-btn" copy_id='+rand+' href="#"><svg class="svg-inline--fa fa-copy fa-w-14 text-secondary" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg><!-- <i class="fas fa-copy text-secondary" aria-hidden="true"></i> --></a><a id="comet-carousel-slide-remove-btn" remove_id='+rand+' href="#"><svg class="svg-inline--fa fa-trash fa-w-14 text-secondary" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash text-secondary" aria-hidden="true"></i> --></a></span></h4></div>\n' +
+                '                                                <div id="slide-'+rand+'" class="collapse">\n' +
+                '                                                    <div class="card-body">\n' +
+                '                                                        <div class="row">\n' +
+                '                                                            <div class="col-lg-5">\n' +
+                '                                                                <div class="form-group">\n' +
+                '                                                                    <label for="carousel_image_copy'+rand+'" class="img_file"><svg class="svg-inline--fa fa-image fa-w-16 fa-3x text-success" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="image" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h416c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM112 120c-30.928 0-56 25.072-56 56s25.072 56 56 56 56-25.072 56-56-25.072-56-56-56zM64 384h384V272l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L208 320l-55.515-55.515c-4.686-4.686-12.284-4.686-16.971 0L64 336v48z"></path></svg><!-- <i class="fas fa-image fa-3x text-success"></i> --></label><span class="up">Upload Image</span>\n' +
+                '                                                                    <input name="image[]" type="file" class="form-control d-none" id="carousel_image_copy'+rand+'" image_file='+rand+'>\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                            <div class="col-lg-5">\n' +
+                '                                                                <div class="form-group">\n' +
+                '                                                                    <img src="" id="carousel_file_copy'+rand+'" alt="" style="width: 150px; height: 100px;" class="shadow">\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Title</label>\n' +
+                '                                                            <input name="title[]" type="text" class="form-control" value='+title+' title='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Sub Title</label>\n' +
+                '                                                            <input name="sub_title[]" type="text" class="form-control" value='+sub_title+' subtitle='+rand+'>\n' +
+                '                                                            <input name="slide_code[]" type="hidden" class="form-control" value='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 01 Title</label>\n' +
+                '                                                            <input name="btn_title_one[]" type="text" class="form-control" value='+btn_title_one+' btn_title_one='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 01 Link</label>\n' +
+                '                                                            <input name="btn_link_one[]" type="text" class="form-control" value='+btn_link_one+' btn_link_one='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 02 Title</label>\n' +
+                '                                                            <input name="btn_title_two[]" type="text" class="form-control" value='+btn_title_two+' btn_title_two='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <label for="">Button 02 Link</label>\n' +
+                '                                                            <input name="btn_link_two[]" type="text" class="form-control" value='+btn_link_two+' btn_link_two='+rand+'>\n' +
+                '                                                        </div>\n' +
+                '                                                    </div>\n' +
+                '                                                </div>\n' +
+                '                                            </div>');
+            imageLoad('#carousel_image_copy'+rand+'', '#carousel_file_copy'+rand+'')
+            return false;
+        });
+
+
+        //Carousel Slider Live Show
+        $(document).on('click', '#show_carousel_slider', function (e){
+            e.preventDefault();
+            const show_id = $(this).attr('edit_id');
+            $('#carousel_slider_individual_show_modal').modal('show');
+
+            $.ajax({
+                url : 'carousel-slider-show/' + show_id,
+                success : function(data){
+                    for(var i=0; i<data.sub_title.length; i++){
+                        $('#carousel_slider_add_caption').append('<div class="carousel-item text-white remove_slide" id="helper-'+[i]+'" >\n' +
+                            '    <li>\n'+
+                            '        <img src="/media/sliders/images/'+data.image[i]+'" alt="" style="width: 800px; height: 360px; position: relative;">\n' +
+                            '        <div class="slide-wrap" style="position: absolute; margin-top: -200px; margin-left: 300px;">\n' +
+                            '            <div class="slide-content">\n' +
+                            '                <div class="container">\n' +
+                            '                    <h1>'+data.title[i]+'<span class="red-dot"></span></h1>\n' +
+                            '                    <h6>'+data.sub_title[i]+'</h6>\n' +
+                            '                    <p><a href="#" class="btn btn-outline-light mr-2 text-white">'+data.btn_title_one[i]+'</a><a href="#" class="btn btn-danger">'+data.btn_title_two[i]+'</a></p>\n' +
+                            '                </div>\n' +
+                            '            </div>\n' +
+                            '        </div>\n' +
+                            '    </li>\n' +
+                            '</div>');
+
+                    }
+                    $('#helper-0').addClass('active');
+                }
+            });
+        });
+
 
         // //slider Video load
         // $(document).on('change', '#sv_file', function (e){
@@ -371,7 +539,7 @@
 // }
 
 
-//Move Slider
+//Move Block Slider
 $(function() {
     $(".comet-slider-container").sortable({
         connectWith: ".comet-slider-container"
@@ -383,6 +551,13 @@ $(function() {
 $(function() {
     $('.comet-slider-testimonials').sortable({
         connectWith: ".comet-slider-testimonials"
+    })
+})
+
+//Move Carousel Slider
+$(function() {
+    $('.comet-carosul-slider-container').sortable({
+        connectWith: ".comet-carosul-slider-container"
     })
 })
 

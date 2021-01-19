@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlockSlider;
+use App\Models\CarouselSlider;
 use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
     /**
-     * Slider Index
+     * Block Slider Index
      */
     public function sliderIndex(){
         $block_slider_info = BlockSlider::latest()->get();
@@ -16,7 +17,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Slider Store
+     * Block Slider Store
      */
     public function sliderStore(Request $request)
     {
@@ -68,7 +69,7 @@ class SliderController extends Controller
     }
 
     /**
-     * All Slider
+     * All Block Slider
      */
     public function allSlider(){
         $sliders = Sliders::latest() -> get();
@@ -76,7 +77,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Slider Unpublished
+     * Block Slider Unpublished
      */
     public function inActive($id){
         $slider_data = BlockSlider::find($id);
@@ -86,7 +87,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Slider Published
+     * Block Slider Published
      */
     public function avtive($id){
         $slider_data = BlockSlider::find($id);
@@ -96,7 +97,7 @@ class SliderController extends Controller
     }
 
     /*
-     * Single Slider Show/Live
+     * Single Block Slider Show/Live
      */
     public function showSlider($id){
         $slider_info = BlockSlider::find($id);
@@ -131,11 +132,120 @@ class SliderController extends Controller
     }
 
     /**
-     * Slider Delete/Destroy
+     * Block Slider Delete/Destroy
      */
     public function destroy($id){
         $slider_info = BlockSlider::find($id);
         $slider_info -> delete();
         return redirect() -> route('slider.add') -> with('success', 'Slider Deleted Successful !');
     }
+
+    /**
+     * Carousel Sliders Store
+     */
+    public function carouselSliderStore(Request $request){
+
+        $slider_num = count($request->sub_title);
+
+        $image_file = $request -> file('image');
+
+        //Image Load
+        if($request -> hasFile('image')){
+            foreach ($image_file as $img){
+                $unique_image_file = md5(time().rand()).'.'. $img -> getClientOriginalExtension();
+                $img -> move(public_path('media/sliders/images'), $unique_image_file);
+                $u_img_f []= $unique_image_file;
+            }
+        }
+
+        $slider_array = [];
+        for($i=0; $i<$slider_num; $i++){
+            $array = [
+                'image' => $u_img_f[$i],
+                'title' => $request -> title[$i],
+                'sub_title' => $request -> sub_title[$i],
+                'slide_code' => $request -> slide_code[$i],
+                'btn_title_one' => $request -> btn_title_one[$i],
+                'btn_link_one' => $request -> btn_link_one[$i],
+                'btn_title_two' => $request -> btn_title_two[$i],
+                'btn_link_two' => $request -> btn_link_two[$i]
+            ];
+            array_push($slider_array, $array);
+        }
+
+        $slider_json = json_encode($slider_array);
+
+
+        CarouselSlider::create([
+            'sliders' => $slider_json
+        ]);
+
+        return redirect() -> route('slider.add') -> with('success', 'Carousel Slider Added Successful !');
+    }
+
+
+    /**
+     * Carousel Slider Active
+     */
+    public function carouselSliderActive($id){
+        $carousel_slider = CarouselSlider::find($id);
+        $carousel_slider -> slide_status = 'Active';
+        $carousel_slider -> update();
+        return redirect() -> route('slider.add') -> with('success', 'Carousel Slider Active Successful !');
+    }
+
+    /**
+     * Carousel Slider Inactive
+     */
+    public function carouselSliderInactive($id){
+        $carousel_slider = CarouselSlider::find($id);
+        $carousel_slider -> slide_status = 'Inactive';
+        $carousel_slider -> update();
+        return redirect() -> route('slider.add') -> with('success', 'Carousel Slider Inactive Successful !');
+    }
+
+    /**
+     * Carousel Slider Destroy
+     */
+    public function carouselSliderDestroy($id){
+        $carousel_slider = CarouselSlider::find($id);
+        $carousel_slider -> delete();
+        return redirect() -> route('slider.add') -> with('success', 'Carousel Slider Deleted Successful !');
+    }
+
+    /**
+     * Single Carousel Slider Show/Live
+     */
+    public function carouselSliderShow($id){
+        $carousel_slider_info = CarouselSlider::find($id);
+        $slider_data = json_decode($carousel_slider_info -> sliders);
+        $image = [];
+        $title = [];
+        $sub_title = [];
+        $btn_title_one = [];
+        $btn_title_two = [];
+        $btn_link_one = [];
+        $btn_link_two = [];
+
+        foreach ($slider_data as $sliders){
+            array_push($image, $sliders -> image);
+            array_push($title, $sliders -> title);
+            array_push($sub_title, $sliders -> sub_title);
+            array_push($btn_title_one, $sliders -> btn_title_one);
+            array_push($btn_title_two, $sliders -> btn_title_two);
+            array_push($btn_link_one, $sliders -> btn_link_one);
+            array_push($btn_link_two, $sliders -> btn_link_two);
+        }
+
+        return [
+          'image' => $image,
+          'title' => $title,
+          'sub_title' => $sub_title,
+          'btn_title_one' => $btn_title_one,
+          'btn_title_two' => $btn_title_two,
+          'btn_link_one' => $btn_link_one,
+          'btn_link_two' => $btn_link_two,
+        ];
+    }
+
 }

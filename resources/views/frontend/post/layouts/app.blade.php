@@ -145,7 +145,7 @@
                                     <span>Multi Page</span>
                                 </li>
                                 <li>
-                                    <a href="">Home Classic</a>
+                                    <a href="{{ route('home.classic') }}">Home Classic</a>
                                 </li>
                                 <li>
                                     <a href="index-01.html">Video Background</a>

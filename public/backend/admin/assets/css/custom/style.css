@@ -176,3 +176,11 @@ body{
     margin-right: 10px;
 }
 
+.up{
+    visibility: hidden;
+}
+
+.img_file:hover ~ span {
+    visibility: visible;
+}
+

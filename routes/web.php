@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 //Frontend Routes
 Route::get('/', 'App\Http\Controllers\FrontEndController@homePage');
+Route::get('/home-classic', 'App\Http\Controllers\FrontEndController@homeClassicPage')->name('home.classic');
 
 
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 
 //Settings Routes
@@ -58,14 +60,24 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'home'],  funct
 });
 
 
-
-
-//Sliders Route
+//Block Sliders Route
 Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'slider'], function (){
     Route::get('all', 'SliderController@sliderIndex')->name('slider.add');
     Route::post('store', 'SliderController@sliderStore')->name('slider.store');
     Route::get('slider-show/{id}', 'SliderController@showSlider')->name('slider.show');
+    Route::get('carousel-slider-show/{id}', 'SliderController@carouselSliderShow')->name('carousel.slider.show');
     Route::get('slider-inactive/{id}', 'SliderController@inActive')->name('slider.inactive');
     Route::get('slider-active/{id}', 'SliderController@avtive')->name('slider.active');
     Route::delete('slider-delete/{id}', 'SliderController@destroy')->name('slider.destroy');
 });
+
+
+//Carousel Sliders Routes
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'carousel/slider'], function (){
+    Route::post('store', 'SliderController@carouselSliderStore')->name('carousel.slider.store');
+    Route::get('active/{id}', 'SliderController@carouselSliderActive')->name('carousel.slider.active');
+    Route::get('inactive/{id}', 'SliderController@carouselSliderInactive')->name('carousel.slider.inactive');
+    Route::delete('delete/{id}', 'SliderController@carouselSliderDestroy')->name('carousel.slider.destroy');
+});
+
+
