@@ -12,9 +12,9 @@
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Posts</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-{{--                        <li><a href="{{ route('post.index') }}">All Post</a></li>--}}
-{{--                        <li><a href="{{ route('post-category.index') }}">Category</a></li>--}}
-{{--                        <li><a href="{{ route('post-tag.index') }}">tag</a></li>--}}
+                        <li class="{{ 'post/all' == request()->path() ? 'active' : '' }}"><a href="{{ route('post.index') }}">All Post</a></li>
+                        <li class="{{ 'post/category' == request()->path() ? 'active' : '' }}"><a href="{{ route('category.index') }}">Category</a></li>
+                        <li class="{{ 'post/tags' == request()->path() ? 'active' : '' }}"><a href="{{ route('tags.index') }}">Tags</a></li>
                     </ul>
                 </li>
 

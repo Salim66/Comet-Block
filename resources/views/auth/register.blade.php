@@ -16,6 +16,11 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/font-awesome.min.css')}}">
 
+    {{--Toster CSS--}}
+    {{--<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">--}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" />
+
+
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/style.css')}}">
 
@@ -38,7 +43,6 @@
                     <div class="login-right-wrap">
                         <h1>Register</h1>
                         <p class="account-subtitle">Access to our dashboard
-                        @include('validate')
 
                         <!-- Form -->
                         <form action="{{ route('register') }}" method="POST">
@@ -89,6 +93,12 @@
 <script src="{{ asset('backend/admin/assets/js/popper.min.js')}}"></script>
 <script src="{{ asset('backend/admin/assets/js/bootstrap.min.js')}}"></script>
 
+{{--Toster Notification--}}
+{{--<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>--}}
+{{--{!! Toastr::message() !!}--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
+
+
 <!-- Custom JS -->
 <script src="{{ asset('backend/admin/assets/js/script.js')}}"></script>
 
@@ -96,3 +106,5 @@
 
 <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:53 GMT -->
 </html>
+
+@include('validate')

@@ -19,21 +19,37 @@
 <script src="{{ asset('backend/admin/assets/plugins/morris/morris.min.js')}}"></script>
 <script src="{{ asset('backend/admin/assets/js/chart.morris.js')}}"></script>
 
+{{--Drop Down JS--}}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-{{--SweetAlert --}}
-<script src="{{ asset('backend/admin/assets/js/sweetalert.min.js')}}"></script>
+<!-- CKEDITOR -->
+<script src="//cdn.ckeditor.com/4.15.1/full/ckeditor.js"></script>
 
-@if( Session::has('success') )
-    <script>
-        swal("Success!","{!! Session::get('success') !!}", "success",{
-            buttons: {
-                confirm: true,
-            },
-        })
-    </script>
-@endif
+{{--Data Table JS--}}
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+
+{{--SweetAlert --}}
+{{--<script src="{{ asset('backend/admin/assets/js/sweetalert.min.js')}}"></script>--}}
+
+{{--@if( Session::has('success') )--}}
+{{--    <script>--}}
+{{--        swal("Success!","{!! Session::get('success') !!}", "success",{--}}
+{{--            buttons: {--}}
+{{--                confirm: true,--}}
+{{--            },--}}
+{{--        })--}}
+{{--    </script>--}}
+{{--@endif--}}
+
+
+{{--Toster Notification--}}
+{{--<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>--}}
+{{--{!! Toastr::message() !!}--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
+
 
 <!-- Custom JS -->
 <script  src="{{ asset('backend/admin/assets/js/script.js')}}"></script>
 <script  src="{{ asset('backend/admin/assets/js/custom/script.js')}}"></script>
+
+@include('validate')

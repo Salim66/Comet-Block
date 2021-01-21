@@ -12,43 +12,80 @@
         CKEDITOR.replace('text_editor');
         CKEDITOR.replace('text_editor_edit');
 
+        // //Add Data Table
+        $('table#datatable').DataTable();
 
-        //Edit Category System
-        $(document).on('click', 'a#edit_category', function (event){
+
+
+        //Edit Post Category System
+        $(document).on('click', '#edit_post_category', function (event){
             event.preventDefault();
             let id = $(this).attr('edit_id');
 
             $.ajax({
-                url : 'post-category-edit/' + id,
-                dataType : 'json',
+                url : 'category/edit/' + id,
                 success : function (data){
                     $('#category-edit-modal form input[name="name"]').val(data.name);
                     $('#category-edit-modal form input[name="id"]').val(data.id);
+
+                    $('#category-edit-modal').modal('show');
                 }
             });
         });
 
-        //Edit Post Tag
-        $(document).on('click', 'a#edit_tag', function(event){
+        //Edit Post Tag System
+        $(document).on('click', '#edit_post_tag', function(event){
             event.preventDefault();
             let id = $(this).attr('edit_id');
 
             $.ajax({
-                url : 'post-tag-edit/' + id,
-                dataType: 'json',
+                url : 'tags/edit/' + id,
                 success : function(data){
                     $('#tag-edit-modal input[name="name"]').val(data.name);
                     $('#tag-edit-modal input[name="id"]').val(data.id);
+
+                    $('#tag-edit-modal').modal('show');
                 }
             });
         });
 
-        //Photo Upload And Show Form
-        $(document).on('change', 'input#f_image', function(event){
+        //Post Edit System
+        $(document).on('click', '#edit_post', function(event){
+            event.preventDefault();
+            //Get Edit ID
+            let edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'edit/' + edit_id,
+                success : function(data){
+                    $('#post_modal_edit input[name="title"]').val(data.title);
+                    $('#post_modal_edit input[name="id"]').val(data.id);
+                    $('#post_modal_edit img#post_featured_image_edit').attr('src', '/media/posts/images/' +data.image)
+                    $('#post_modal_edit div.cl').html(data.category_list);
+                    $('#post_modal_edit div.tg').html(data.tags_list);
+                    CKEDITOR.instances.text_editor_edit.setData( data.content, function (){
+                       this.checkDirty();
+                    });
+
+                    $('#post_modal_edit').modal('show');
+                }
+            });
+        });
+
+        // Post Image Load Form
+        $(document).on('change', '#f_image', function(event){
             event.preventDefault();
             let post_image_url = URL.createObjectURL(event.target.files[0]);
-            $('img#post_featured_image_load').attr('src', post_image_url);
-            $('label#label_img').css('display', 'none');
+            $('#post_featured_image_load').attr('src', post_image_url);
+            $('#label_img').css('display', 'none');
+        });
+
+        //Post Edit Image Load
+        $(document).on('change', '#f_image_edit', function (e){
+            e.preventDefault();
+            let post_edit_url = URL.createObjectURL(e.target.files[0]);
+            $('#post_featured_image_edit').attr('src', post_edit_url);
+            $('#label_img_edit').css('display', 'none');
         });
 
         //Client Image Show
@@ -113,23 +150,6 @@
             $('#favicon_load').css('background-color', 'white');
         });
 
-        //Post Edit
-        $(document).on('click', '#edit_post', function(event){
-            event.preventDefault();
-            //Get Edit ID
-            let edit_id = $(this).attr('edit_id');
-
-            $.ajax({
-                url : 'post-edit/'+edit_id,
-                success : function(data){
-                    $('#post_modal_edit input[name="title"]').val(data.title);
-                    $('#post_modal_edit img#post_featured_image_load').attr('src', 'media/posts/' +data.image)
-                    $('#post_modal_edit div.cl').html(data.cat_list);
-                }
-            });
-
-            $('#post_modal_edit').modal('show');
-        });
 
         // Comet Slider Script
         $(document).on('click', '.comet-add-slide', function (e){
@@ -184,14 +204,15 @@
         //Copy Slider
         $(document).on('click', '#comet-slide-copy-btn', function (e){
             e.preventDefault();
-            const copy_id = $(this).attr('copy_id');
-            const rand = Math.floor(Math.random() * 10000);
-            const title = $('input[title='+copy_id+']').val();
-            const subtitle = $('input[subtitle='+copy_id+']').val();
-            const btn_title_one = $('input[btn_title_one='+copy_id+']').val();
-            const btn_link_one = $('input[btn_link_one='+copy_id+']').val();
-            const btn_title_two = $('input[btn_title_two='+copy_id+']').val();
-            const btn_link_two = $('input[btn_link_two='+copy_id+']').val();
+            let copy_id = $(this).attr('copy_id');
+            let rand = Math.floor(Math.random() * 10000);
+            let title = $('input[title='+copy_id+']').val();
+            let subtitle = $('input[subtitle='+copy_id+']').val();
+            let btn_title_one = $('input[btn_title_one='+copy_id+']').val();
+            let btn_link_one = $('input[btn_link_one='+copy_id+']').val();
+            let btn_title_two = $('input[btn_title_two='+copy_id+']').val();
+            let btn_link_two = $('input[btn_link_two='+copy_id+']').val();
+
 
             $('.comet-slider-container').append('<div class="card shadow" id="slider-card-'+rand+'">\n' +
                 '                                                <div class="card-header ch" style="cursor: pointer;" data-toggle="collapse" data-target="#slide-'+rand+'"><h4>#Slider '+rand+'<span class="copy_remove_btn"><a style="z-index: 3;" id="comet-slide-copy-btn" copy_id='+rand+' href="#"><i class="fas fa-copy text-secondary" aria-hidden="true"></i></a><a id="comet-slide-remove-btn" remove_id='+rand+' href="#"><i class="fas fa-trash text-secondary" aria-hidden="true"></i></a></span></h4></div>\n' +
@@ -199,28 +220,28 @@
                 '                                                    <div class="card-body">\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Sub Title</label>\n' +
-                '                                                                <input name="subtitle[]" type="text" class="form-control" value='+subtitle+'>\n' +
-                '                                                                <input name="slide_code[]" type="hidden" class="form-control" value='+rand+'>\n' +
+                '                                                                <input name="subtitle[]" type="text" class="form-control" value="'+subtitle+'">\n' +
+                '                                                                <input name="slide_code[]" type="hidden" class="form-control" value="'+rand+'">\n' +
                 '                                                            </div>\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Title</label>\n' +
-                '                                                                <input name="title[]" type="text" class="form-control" value='+title+'>\n' +
+                '                                                                <input name="title[]" type="text" class="form-control" value="'+title+'">\n' +
                 '                                                            </div>\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Button 01 Title</label>\n' +
-                '                                                                <input name="btntitle_01[]" type="text" class="form-control" value='+btn_title_one+'>\n' +
+                '                                                                <input name="btntitle_01[]" type="text" class="form-control" value="'+btn_title_one+'">\n' +
                 '                                                            </div>\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Button 01 Link</label>\n' +
-                '                                                                <input name="btnlink_01[]" type="text" class="form-control" value='+btn_link_one+'>\n' +
+                '                                                                <input name="btnlink_01[]" type="text" class="form-control" value="'+btn_link_one+'">\n' +
                 '                                                            </div>\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Button 02 Title</label>\n' +
-                '                                                                <input name="btntitle_02[]" type="text" class="form-control" value='+btn_title_two+'>\n' +
+                '                                                                <input name="btntitle_02[]" type="text" class="form-control" value="'+btn_title_two+'">\n' +
                 '                                                            </div>\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Button 02 Link</label>\n' +
-                '                                                                <input name="btnlink_02[]" type="text" class="form-control" value='+btn_link_two+'>\n' +
+                '                                                                <input name="btnlink_02[]" type="text" class="form-control" value="'+btn_link_two+'">\n' +
                 '                                                            </div>\n' +
                 '                                                    </div>\n' +
                 '                                                </div>\n' +
@@ -337,11 +358,11 @@
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">Description</label>\n' +
                 '                                                                <textarea name="description[]" rows="2" class="form-control" description='+rand+'>'+description+'</textarea>\n' +
-                '                                                                <input name="slide_code[]" type="hidden" class="form-control" value='+rand+'>\n' +
+                '                                                                <input name="slide_code[]" type="hidden" class="form-control" value="'+rand+'">\n' +
                 '                                                            </div>\n' +
                 '                                                            <div class="form-group">\n' +
                 '                                                                <label for="">By</label>\n' +
-                '                                                                <input name="by[]" type="text" class="form-control" by='+rand+' value='+by+'>\n' +
+                '                                                                <input name="by[]" type="text" class="form-control" by='+rand+' value="'+by+'">\n' +
                 '                                                            </div>\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
@@ -425,7 +446,6 @@
         $(document).on('click', '#comet-carousel-slide-copy-btn', function (e){
             e.preventDefault();
             const copy_id = $(this).attr('copy_id');
-            const image_file = $('input[image_file='+copy_id+']').val();
             const title = $('input[title='+copy_id+']').val();
             const sub_title = $('input[subtitle='+copy_id+']').val();
             const slide_code = $('input[value='+copy_id+']').val();
@@ -434,6 +454,7 @@
             const btn_link_one = $('input[btn_link_one='+copy_id+']').val();
             const btn_link_two = $('input[btn_link_two='+copy_id+']').val();
             const rand = Math.floor(Math.random() * 10000);
+            const image_source = $('img[id="carousel_file'+copy_id+'"]').attr('src');
 
             $('.comet-carosul-slider-container').append('<div class="card shadow" id="slider-card-'+rand+'">\n' +
                 '                                                <div class="card-header ch" style="cursor: pointer;" data-toggle="collapse" data-target="#slide-'+rand+'"><h4>#Slider '+rand+'<span class="copy_remove_btn"><a id="comet-carousel-slide-copy-btn" copy_id='+rand+' href="#"><svg class="svg-inline--fa fa-copy fa-w-14 text-secondary" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg><!-- <i class="fas fa-copy text-secondary" aria-hidden="true"></i> --></a><a id="comet-carousel-slide-remove-btn" remove_id='+rand+' href="#"><svg class="svg-inline--fa fa-trash fa-w-14 text-secondary" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg><!-- <i class="fas fa-trash text-secondary" aria-hidden="true"></i> --></a></span></h4></div>\n' +
@@ -448,39 +469,39 @@
                 '                                                            </div>\n' +
                 '                                                            <div class="col-lg-5">\n' +
                 '                                                                <div class="form-group">\n' +
-                '                                                                    <img src="" id="carousel_file_copy'+rand+'" alt="" style="width: 150px; height: 100px;" class="shadow">\n' +
+                '                                                                    <img src="'+image_source+'" id="carousel_file'+rand+'" alt="" style="width: 150px; height: 100px;" class="shadow">\n' +
                 '                                                                </div>\n' +
                 '                                                            </div>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="form-group">\n' +
                 '                                                            <label for="">Title</label>\n' +
-                '                                                            <input name="title[]" type="text" class="form-control" value='+title+' title='+rand+'>\n' +
+                '                                                            <input name="title[]" type="text" class="form-control" value="'+title+'" title='+rand+'>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="form-group">\n' +
                 '                                                            <label for="">Sub Title</label>\n' +
-                '                                                            <input name="sub_title[]" type="text" class="form-control" value='+sub_title+' subtitle='+rand+'>\n' +
-                '                                                            <input name="slide_code[]" type="hidden" class="form-control" value='+rand+'>\n' +
+                '                                                            <input name="sub_title[]" type="text" class="form-control" value="'+sub_title+'" subtitle='+rand+'>\n' +
+                '                                                            <input name="slide_code[]" type="hidden" class="form-control" value="'+rand+'">\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="form-group">\n' +
                 '                                                            <label for="">Button 01 Title</label>\n' +
-                '                                                            <input name="btn_title_one[]" type="text" class="form-control" value='+btn_title_one+' btn_title_one='+rand+'>\n' +
+                '                                                            <input name="btn_title_one[]" type="text" class="form-control" value="'+btn_title_one+'" btn_title_one='+rand+'>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="form-group">\n' +
                 '                                                            <label for="">Button 01 Link</label>\n' +
-                '                                                            <input name="btn_link_one[]" type="text" class="form-control" value='+btn_link_one+' btn_link_one='+rand+'>\n' +
+                '                                                            <input name="btn_link_one[]" type="text" class="form-control" value="'+btn_link_one+'" btn_link_one='+rand+'>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="form-group">\n' +
                 '                                                            <label for="">Button 02 Title</label>\n' +
-                '                                                            <input name="btn_title_two[]" type="text" class="form-control" value='+btn_title_two+' btn_title_two='+rand+'>\n' +
+                '                                                            <input name="btn_title_two[]" type="text" class="form-control" value="'+btn_title_two+'" btn_title_two='+rand+'>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="form-group">\n' +
                 '                                                            <label for="">Button 02 Link</label>\n' +
-                '                                                            <input name="btn_link_two[]" type="text" class="form-control" value='+btn_link_two+' btn_link_two='+rand+'>\n' +
+                '                                                            <input name="btn_link_two[]" type="text" class="form-control" value="'+btn_link_two+'" btn_link_two='+rand+'>\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
                 '                                                </div>\n' +
                 '                                            </div>');
-            imageLoad('#carousel_image_copy'+rand+'', '#carousel_file_copy'+rand+'')
+            imageLoad('#carousel_image_copy'+rand+'', '#carousel_file'+rand+'')
             return false;
         });
 

@@ -7,7 +7,7 @@
 @section('main-content')
 
     <section class="page-title parallax">
-    <div data-parallax="scroll" data-image-src="{{ URL::to('/') }}/media/posts/{{ $single_post -> featured_image }}" class="parallax-bg"></div>
+    <div data-parallax="scroll" data-image-src="{{ URL::to('/') }}/media/posts/images/{{ $single_post -> featured_image }}" class="parallax-bg"></div>
         <div class="parallax-overlay">
             <div class="centrize">
                 <div class="v-center">
@@ -30,17 +30,21 @@
                     <article class="post-single">
                         <div class="post-info text-center">
                             <h2><a href="#">{{ $single_post -> title }}</a></h2>
-                        <h6 class="upper"><span>By</span><a href="#"> {{ $single_post -> author -> name }}</a><span class="dot"></span><span>{{ date('F d, Y', strtotime($single_post -> created_at)) }}</span><span class="dot"></span><a href="#" class="post-tag">
-
+                        <h6 class="upper"><span>By</span><a href="#"> {{ $single_post -> author -> name }}</a><span class="dot"></span><span>{{ date('m d, Y', strtotime($single_post -> created_at)) }}</span><span class="dot"></span>
+                            Category:
                             @foreach ($single_post -> categories as $category)
-                                {{ $category -> name }} .
+                             <a href="#" class="post-tag">{{ $category -> name }} .</a>
                             @endforeach
 
-                            </a>
+                            Tags:
+                            @foreach($single_post -> tags as $tag)
+                                <a href="#" class="post-tag">{{ $tag -> name }} .</a>
+                            @endforeach
+
                         </h6>
                         </div>
                         <div class="post-media text-center">
-                        <img src="{{ URL::to('/') }}/media/posts/{{ $single_post -> featured_image }}" alt="">
+                        <img src="{{ URL::to('/') }}/media/posts/images/{{ $single_post -> featured_image }}" alt="">
                         </div>
                         <div class="post-body">
                             {!! htmlspecialchars_decode($single_post -> content) !!}

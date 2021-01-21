@@ -24,18 +24,19 @@
                     @include('validate')
                     <a class="btn btn-primary" href="#post-add-modal" data-toggle="modal">Add new Post</a>
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" style="background-color: lightpink">
                             <h4 class="card-title">All Posts</h4>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="background-color: lightblue">
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
+                                <table id="datatable" class="table table-hover mb-0">
+                                    <thead class="bg-dark text-white">
                                     <tr>
                                         <th>#</th>
-                                        <th>Tigle</th>
+                                        <th>Title</th>
                                         <th>Category</th>
                                         <th>Tag</th>
+                                        <th>Created By</th>
                                         <th>Featured Image</th>
                                         <th>Time</th>
                                         <th>Status</th>
@@ -53,10 +54,17 @@
                                                 {{ $category -> name }} |
                                             @endforeach
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            @foreach($data -> tags as $tag)
+                                                {{ $tag -> name }} |
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            {{ $data -> author -> name }}
+                                        </td>
                                         <td>
                                             @if( !empty($data -> featured_image) )
-                                            <img style="width: 60px; height: 60px;" src="{{ URL::to('/') }}/media/posts/{{ $data -> featured_image }}" alt="">
+                                            <img style="width: 60px; height: 60px;" src="{{ URL::to('/') }}/media/posts/images/{{ $data -> featured_image }}" alt="">
                                             @endif
                                         </td>
                                         <td>
@@ -71,12 +79,12 @@
                                         </td>
                                         <td>
                                             @if( $data -> status == 'Published' )
-                                                <a href="{{ route('post.unpublished', $data->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
+                                                <a href="{{ route('post.unpublished', $data ->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
                                             @else
-                                                <a href="{{ route('post.published', $data->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('post.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                             @endif
                                             <a id="edit_post" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#" data-toggle="modal">Edit</a>
-                                                <form class="d-inline" action="{{ route('post.destroy', $data->id) }}" method="POST">
+                                                <form class="d-inline" action="{{ route('post.destroy', $data -> id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger btn-sm">Delete</button>
@@ -111,12 +119,24 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         <label for="">Category</label>
-                                        @foreach($categories as $category)
+                                        @foreach($category_info as $category)
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="category[]" value="{{ $category->id }}"> {{ $category->name }}
+                                                <input type="checkbox" name="category[]" value="{{ $category -> id }}"> {{ $category -> name }}
                                             </label>
                                         </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="">Tags</label>
+                                        @foreach($tags_info as $tag)
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="tag[]" value="{{ $tag -> id }}"> {{ $tag -> name }}
+                                                </label>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -145,10 +165,12 @@
                             <button class="close float-left" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('post.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                @method('PATCH')
                                 <div class="form-group">
                                     <input name="title" class="form-control" type="text" placeholder="Title">
+                                    <input name="id" class="form-control" type="hidden" >
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-10">
@@ -157,9 +179,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label id="label_img" class="text-success bg-gradient" for="f_image"><i class="far fa-file-image fa-5x"></i></label>
-                                    <input name="featured_image" class="d-none" type="file" id="f_image" >
-                                    <img class="w-100" id="post_featured_image_load" src="" alt="">
+                                    <div class="col-md-10">
+                                        <label for="">Tags</label>
+                                        <div class="tg"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label id="label_img_edit" class="text-success bg-gradient" for="f_image_edit"><i class="far fa-file-image fa-5x"></i></label>
+                                    <input name="featured_image" class="d-none" type="file" id="f_image_edit" >
+                                    <img class="w-100" id="post_featured_image_edit" src="" alt="">
                                 </div>
                                 <textarea id="text_editor_edit" name="content"></textarea>
                                 <div class="form-group">

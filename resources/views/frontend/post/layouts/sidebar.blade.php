@@ -12,7 +12,7 @@
         <ul class="nav">
 
             @php
-              $categories = App\Models\Category::latest() -> take(5) -> get();
+              $categories = App\Models\PostCategory::latest() -> take(5) -> get();
             @endphp
 
           @foreach($categories as $category)
@@ -29,7 +29,7 @@
         <div class="tags clearfix">
 
           @php
-              $tags = App\Models\Tag::latest() -> take(5) -> get();
+              $tags = App\Models\PostTags::latest() -> take(5) -> get();
           @endphp
 
           @foreach ($tags as $tag)
@@ -49,7 +49,7 @@
 
           @foreach ($posts as $post)
           <li>
-          <a href="#">{{ $post -> title }}<i class="ti-arrow-right"></i><span>{{ date('F d, Y', strtotime($post->created_at)) }}</span></a>
+          <a href="{{ route('blog.single.page', $post-> slug) }}">{{ $post -> title }}<i class="ti-arrow-right"></i><span>{{ date('F d, Y', strtotime($post->created_at)) }}</span></a>
           </li>
           @endforeach
 

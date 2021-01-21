@@ -31,24 +31,35 @@
             <article class="post-single">
               <div class="post-info">
               <h2><a href="#">{{ $post -> title }}</a></h2>
-                <h6 class="upper"><span>By</span><a href="#"> {{ $post -> author -> name }}</a><span class="dot"></span><span>{{ date('F d, Y', strtotime($post->created_at)) }}</span><span class="dot"></span><a href="#" class="post-tag">
-                @foreach( $post -> categories as $category )
-                    {{ $category -> name }} .
-                @endforeach
-                </a></h6>
+                <h6 class="upper"><span>By</span><a href="#"> {{ $post -> author -> name }}</a><span class="dot"></span><span>{{ date('F d, Y', strtotime($post -> created_at)) }}</span><span class="dot"></span>
+
+                    Category:
+                    @foreach( $post -> categories as $category )
+                        <a href="#" class="post-tag">
+                            {{ $category -> name }} .
+                        </a>
+                    @endforeach
+
+                    Tags:
+                    @foreach($post -> tags as $tag)
+                        <a href="#" class="post-tag">
+                            {{ $tag -> name }} .
+                        </a>
+                    @endforeach
+                </h6>
               </div>
               <div class="post-media">
                 <div data-options="{&quot;animation&quot;: &quot;slide&quot;, &quot;controlNav&quot;: true" class="flexslider nav-outside">
                   <ul class="slides">
                     <li>
-                    <img src="{{ URL::to('/') }}/media/posts/{{ $post -> featured_image }}" alt="">
+                    <img src="{{ URL::to('/') }}/media/posts/images/{{ $post -> featured_image }}" alt="">
                     </li>
                   </ul>
                 </div>
               </div>
               <div class="post-body">
-                  {!! Str::of(htmlspecialchars_decode($post->content)) -> words('40', "<span style='color:red;'> >>></span>") !!}
-              <p><a href="{{ route('blog.single', $post -> slug) }}" class="btn btn-color btn-sm">Read More</a>
+                 {!! Str::of(htmlspecialchars_decode($post -> content)) -> words('40', "<span style='color:red;'> >>></span>") !!}
+              <p><a href="{{ route('blog.single.page', $post -> slug) }}" class="btn btn-color btn-sm">Read More</a>
                 </p>
               </div>
             </article>

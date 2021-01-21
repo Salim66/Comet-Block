@@ -20,17 +20,17 @@
             <!-- /Page Header -->
 
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                     @include('validate')
-                    <a class="btn btn-primary" href="#tag-add-modal" data-toggle="modal">Add new Tag</a>
+                    <a class="btn btn-outline-primary" href="#tag-add-modal" data-toggle="modal">Add new Tag</a>
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" style="background-color: lightpink">
                             <h4 class="card-title">All Tags</h4>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
+                        <div class="card-body" style="background-color: lightblue">
+                            <div  class="table-responsive">
+                                <table id="datatable" class="table table-hover mb-0">
+                                    <thead class="bg-dark text-white">
                                     <tr>
                                         <th>#</th>
                                         <th>Tag Name</th>
@@ -55,12 +55,12 @@
                                         </td>
                                         <td>
                                             @if( $data -> status == 'Published' )
-                                                <a href="{{ route('tag.unpublished', $data->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
+                                                <a href="{{ route('tags.unpublished', $data -> id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
                                             @else
-                                                <a href="{{ route('tag.published', $data->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('tags.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                             @endif
-                                            <a id="edit_tag" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#tag-edit-modal" data-toggle="modal">Edit</a>
-                                                <form class="d-inline" action="{{ route('post-tag.destroy', $data->id) }}" method="POST">
+                                            <a id="edit_post_tag" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#" data-toggle="modal">Edit</a>
+                                                <form class="d-inline" action="{{ route('tags.destroy', $data -> id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger btn-sm">Delete</button>
@@ -83,10 +83,10 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add New Tag</h4>
+                            <h4 class="modal-title">Add New Tags</h4>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('post-tag.store') }}" method="POST">
+                            <form action="{{ route('tags.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <input name="name" class="form-control" type="text" placeholder="Name">
@@ -109,7 +109,7 @@
                             <h4 class="modal-title">Update Tag</h4>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('tag.update') }}" method="POST">
+                            <form action="{{ route('tags.update') }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">

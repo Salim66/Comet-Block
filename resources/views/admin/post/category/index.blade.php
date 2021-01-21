@@ -10,7 +10,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h3 class="page-title">Welcome Admin!</h3>
+                        <h3 class="page-title">Welcome {{ Auth::user() -> name }}!</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ul>
@@ -20,17 +20,17 @@
             <!-- /Page Header -->
 
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                     @include('validate')
-                    <a class="btn btn-primary" href="#category-add-modal" data-toggle="modal">Add new category</a>
+                    <a class="btn btn-outline-primary" href="#category-add-modal" data-toggle="modal">Add new category</a>
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Hover Rows</h4>
+                        <div class="card-header" style="background-color: lightpink">
+                            <h4 class="card-title">All Category</h4>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="background-color: lightblue">
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
+                                <table id="datatable" class="table table-hover mb-0">
+                                    <thead class="bg-dark text-light">
                                     <tr>
                                         <th>#</th>
                                         <th>Category Name</th>
@@ -55,12 +55,12 @@
                                         </td>
                                         <td>
                                             @if( $data -> status == 'Published' )
-                                                <a href="{{ route('category.unpublished', $data->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
+                                                <a href="{{ route('category.unpublished', $data -> id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
                                             @else
-                                                <a href="{{ route('category.published', $data->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('category.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                             @endif
-                                            <a id="edit_category" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#category-edit-modal" data-toggle="modal">Edit</a>
-                                                <form class="d-inline" action="{{ route('post-category.destroy', $data->id) }}" method="POST">
+                                            <a id="edit_post_category" edit_id="{{ $data -> id }}" class="btn btn-warning btn-sm" href="#" data-toggle="modal">Edit</a>
+                                                <form class="d-inline" action="{{ route('category.delete', $data -> id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger btn-sm">Delete</button>
@@ -86,7 +86,7 @@
                             <h4 class="modal-title">Add New Category</h4>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('post-category.store') }}" method="POST">
+                            <form action="{{ route('category.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <input name="name" class="form-control" type="text" placeholder="Name">

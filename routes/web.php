@@ -17,11 +17,50 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\FrontEndController@homePage');
 Route::get('/home-classic', 'App\Http\Controllers\FrontEndController@homeClassicPage')->name('home.classic');
 
+//Blog Page Routes
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'blog'], function (){
+    Route::get('', 'FrontEndController@blogPage')->name('blog.page');
+    Route::get('single/{slug}', 'FrontEndController@blogSinglePage')->name('blog.single.page');
+});
+
 
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+//Posts Routes
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'post'], function (){
+    //Category Routes
+   Route::get('category', 'PostCategoryController@index')->name('category.index');
+   Route::post('category/store', 'PostCategoryController@store')->name('category.store');
+   Route::get('category/edit/{id}', 'PostCategoryController@edit')->name('category.edit');
+   Route::put('category/update', 'PostCategoryController@update')->name('category.update');
+   Route::get('category/unpublished/{id}', 'PostCategoryController@unpublished')->name('category.unpublished');
+   Route::get('category/published/{id}', 'PostCategoryController@published')->name('category.published');
+   Route::delete('category/delete/{id}', 'PostCategoryController@destroy')->name('category.delete');
+
+   //Tags Routes
+    Route::get('tags', 'PostTagsController@index')->name('tags.index');
+    Route::post('tags/store', 'PostTagsController@store')->name('tags.store');
+    Route::get('tags/edit/{id}', 'PostTagsController@edit')->name('tags.edit');
+    Route::put('tags/update', 'PostTagsController@update')->name('tags.update');
+    Route::get('tags/unpublished/{id}', 'PostTagsController@unpublished')->name('tags.unpublished');
+    Route::get('tags/published/{id}', 'PostTagsController@published')->name('tags.published');
+    Route::delete('tags/delete/{id}', 'PostTagsController@destroy')->name('tags.destroy');
+
+    //Post Routes
+    Route::get('all', 'PostController@index')->name('post.index');
+    Route::post('store', 'PostController@store')->name('post.store');
+    Route::get('edit/{id}', 'PostController@edit')->name('post.edit');
+    Route::patch('update', 'PostController@update')->name('post.update');
+    Route::get('unpublished/{id}', 'PostController@unpublished')->name('post.unpublished');
+    Route::get('published/{id}', 'PostController@published')->name('post.published');
+    Route::delete('delete/{id}', 'PostController@destroy')->name('post.destroy');
+});
+
 
 
 
