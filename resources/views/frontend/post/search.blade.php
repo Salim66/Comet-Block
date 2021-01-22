@@ -27,7 +27,7 @@
           <div class="blog-posts">
 
 
-            @foreach( $all_post as $post )
+            @foreach( $post_info as $post )
             <article class="post-single">
               <div class="post-info">
               <h2><a href="#">{{ $post -> title }}</a></h2>
@@ -68,7 +68,7 @@
           </div>
 
           <ul class="pagination">
-            {{ $all_post -> links() }}
+{{--            {{ $post -> links() }}--}}
           </ul>
 
           <ul class="pagination">

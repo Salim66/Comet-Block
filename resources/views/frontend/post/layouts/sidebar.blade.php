@@ -2,8 +2,9 @@
     <div class="sidebar hidden-sm hidden-xs">
       <div class="widget">
         <h6 class="upper">Search blog</h6>
-        <form>
-          <input type="text" placeholder="Search.." class="form-control">
+        <form action="{{ route('search.post') }}" method="POST">
+            @csrf
+          <input type="text" name="search" placeholder="Search.." class="form-control">
         </form>
       </div>
       <!-- end of widget        -->
@@ -17,7 +18,7 @@
 
           @foreach($categories as $category)
           <li>
-              <a href="#">{{ $category -> name }}</a>
+              <a href="{{ route('search.category', $category -> slug) }}">{{ $category -> name }}</a>
           </li>
           @endforeach
 
@@ -33,7 +34,7 @@
           @endphp
 
           @foreach ($tags as $tag)
-          <a href="#">{{ $tag -> name }}</a>
+          <a href="{{ route('search.tags', $tag -> slug) }}">{{ $tag -> name }}</a>
           @endforeach
 
         </div>

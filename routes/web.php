@@ -23,6 +23,14 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'blog'], functi
     Route::get('single/{slug}', 'FrontEndController@blogSinglePage')->name('blog.single.page');
 });
 
+//Blog Post Search By Category
+Route::get('category/{slug}', 'App\Http\Controllers\FrontEndController@searchByCategory')->name('search.category');
+
+//Blog Post Search By Tags
+Route::get('tags/{slug}', 'App\Http\Controllers\FrontEndController@searchByTags')->name('search.tags');
+
+//Blog Post Search By Search Field
+Route::post('search', 'App\Http\Controllers\FrontEndController@searchByPost')->name('search.post');
 
 
 Auth::routes();

@@ -33,12 +33,12 @@
                         <h6 class="upper"><span>By</span><a href="#"> {{ $single_post -> author -> name }}</a><span class="dot"></span><span>{{ date('m d, Y', strtotime($single_post -> created_at)) }}</span><span class="dot"></span>
                             Category:
                             @foreach ($single_post -> categories as $category)
-                             <a href="#" class="post-tag">{{ $category -> name }} .</a>
+                             <a href="{{ route('search.category', $category -> slug) }}" class="post-tag">{{ $category -> name }} .</a>
                             @endforeach
 
                             Tags:
                             @foreach($single_post -> tags as $tag)
-                                <a href="#" class="post-tag">{{ $tag -> name }} .</a>
+                                <a href="{{ route('search.tags', $tag -> slug) }}" class="post-tag">{{ $tag -> name }} .</a>
                             @endforeach
 
                         </h6>

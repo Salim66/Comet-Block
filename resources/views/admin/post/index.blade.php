@@ -64,7 +64,7 @@
                                         </td>
                                         <td>
                                             @if( !empty($data -> featured_image) )
-                                            <img style="width: 60px; height: 60px;" src="{{ URL::to('/') }}/media/posts/images/{{ $data -> featured_image }}" alt="">
+                                            <img style="width: 40px; height: 40px;" src="{{ URL::to('/') }}/media/posts/images/{{ $data -> featured_image }}" alt="">
                                             @endif
                                         </td>
                                         <td>

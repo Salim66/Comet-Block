@@ -410,6 +410,11 @@
             <!-- end of container-->
         </div>
     </section>
+    @php
+
+        $post_info = App\Models\Post::latest() -> take(2) -> get();
+
+    @endphp
     <section>
         <div class="container">
             <div class="title center">
@@ -420,32 +425,24 @@
             <div class="section-content">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
+                        @foreach($post_info as $post)
                         <div class="blog-post">
                             <div class="post-body">
-                                <h3 class="serif"><a href="#">Checklists for Startups</a></h3>
+                                <h3 class="serif"><a href="#">{{ $post -> title }}</a></h3>
                                 <hr>
-                                <p class="serif">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab corporis eos quod libero doloremque odio perspiciatis ratione cumque ex laboriosam, laborum accusantium quis quidem excepturi, adipisci neque, aliquam ea! [...]</p>
-                                <div class="post-info upper"><a href="#">Read More</a><span class="pull-right black-text">November 16, 2015</span>
+                                <p class="serif">{!! Str::of(htmlspecialchars_decode($post -> content)) -> words('20', "<span style='color:red;'> >>></span>") !!}</p>
+                                <div class="post-info upper"><a href="{{ route('blog.single.page', $post -> slug) }}">Read More</a><span class="pull-right black-text">{{ date('M d, Y', strtotime($post -> created_at)) }}</span>
                                 </div>
                             </div>
                             <!-- end of blog post-->
                         </div>
-                        <div class="blog-post">
-                            <div class="post-body">
-                                <h3 class="serif"><a href="#">Never Tell People What You Do</a></h3>
-                                <hr>
-                                <p class="serif">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab corporis eos quod libero doloremque odio perspiciatis ratione cumque ex laboriosam, laborum accusantium quis quidem excepturi, adipisci neque, aliquam ea! [...]</p>
-                                <div class="post-info upper"><a href="#">Read More</a><span class="pull-right black-text">November 12, 2015</span>
-                                </div>
-                            </div>
-                            <!-- end of blog post-->
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <!-- end of row-->
                 <div class="clearfix"></div>
                 <div class="mt-25">
-                    <p class="text-center"><a href="#" class="btn btn-color-out">View Full Blog          </a>
+                    <p class="text-center"><a href="{{ route('blog.page') }}" class="btn btn-color-out">View Full Blog          </a>
                     </p>
                 </div>
             </div>
