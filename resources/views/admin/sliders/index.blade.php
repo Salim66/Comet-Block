@@ -19,8 +19,9 @@
             </div>
             <!-- /Page Header -->
 
+            <h3>Create Your Slider</h3>
             <select class="custom-select" id="trail">
-                <option selected>Create Your Slider</option>
+                <option selected>---Select---</option>
                 <option value="video">Block Slider</option>
                 <option value="carousel">Carousel Slider</option>
                 <option value="showcase">Showcase Slider</option>
@@ -136,7 +137,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-primary">
-                                    <span class="spinner-grow spinner-grow-sm"></span><a id="show_slider" href="#" edit_id="{{ $slider -> id }}" data-toggle="modal" class="text-white">Live View</a>
+                                    <span class="spinner-grow spinner-grow-sm"></span><a id="show_slider" href="#" edit_id="{{ $slider -> id }}" data-toggle="modal" class="text-white">Preview</a>
                                 </button>
 
                                 @if($slider -> slide_status == 'Active')
@@ -167,7 +168,7 @@
 
 
 
-{{--         Start Block live Slider Modal--}}
+{{--         Start Block Preview/live Slider Modal--}}
             <div id="slide_individual_show_modal" class="modal fade">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
@@ -192,7 +193,7 @@
                             </div>
                     </div>
                 </div>
-            </div>{{--         End Block live Slider Modal--}}
+            </div>{{--         End Block Preview/live Slider Modal--}}
 
 
 

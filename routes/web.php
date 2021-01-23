@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\FrontEndController@homePage');
 Route::get('/home-classic', 'App\Http\Controllers\FrontEndController@homeClassicPage')->name('home.classic');
 
+//Product Page Routes
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'product'], function (){
+    Route::get('', 'FrontEndController@productIndexPage')->name('product.page');
+    Route::get('single', 'FrontEndController@productSinglePage')->name('product.single');
+});
+
 //Blog Page Routes
 Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'blog'], function (){
     Route::get('', 'FrontEndController@blogPage')->name('blog.page');
@@ -67,6 +73,48 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'post'], functi
     Route::get('unpublished/{id}', 'PostController@unpublished')->name('post.unpublished');
     Route::get('published/{id}', 'PostController@published')->name('post.published');
     Route::delete('delete/{id}', 'PostController@destroy')->name('post.destroy');
+});
+
+
+
+
+//Product Routes
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'product'], function (){
+    //Category Routes
+    Route::get('category', 'ShopCategoryController@index')->name('shop-category.index');
+    Route::post('category/store', 'ShopCategoryController@store')->name('shop-category.store');
+    Route::get('category/edit/{id}', 'ShopCategoryController@edit')->name('shop-category.edit');
+    Route::put('category/update', 'ShopCategoryController@update')->name('shop-category.update');
+    Route::get('category/unpublished/{id}', 'ShopCategoryController@unpublished')->name('shop-category.unpublished');
+    Route::get('category/published/{id}', 'ShopCategoryController@published')->name('shop-category.published');
+    Route::delete('category/delete/{id}', 'ShopCategoryController@destroy')->name('shop-category.delete');
+
+    //Tags Routes
+    Route::get('tags', 'ShopTagsController@index')->name('shop-tags.index');
+    Route::post('tags/store', 'ShopTagsController@store')->name('shop-tags.store');
+    Route::get('tags/edit/{id}', 'ShopTagsController@edit')->name('shop-tags.edit');
+    Route::put('tags/update', 'ShopTagsController@update')->name('shop-tags.update');
+    Route::get('tags/unpublished/{id}', 'ShopTagsController@unpublished')->name('shop-tags.unpublished');
+    Route::get('tags/published/{id}', 'ShopTagsController@published')->name('shop-tags.published');
+    Route::delete('tags/delete/{id}', 'ShopTagsController@destroy')->name('shop-tags.destroy');
+
+    //Colors Routes
+    Route::get('colors', 'ShopColorController@index')->name('shop-colors.index');
+    Route::post('colors/store', 'ShopColorController@store')->name('shop-colors.store');
+    Route::get('colors/edit/{id}', 'ShopColorController@edit')->name('shop-colors.edit');
+    Route::put('colors/update', 'ShopColorController@update')->name('shop-colors.update');
+    Route::get('colors/unpublished/{id}', 'ShopColorController@unpublished')->name('shop-colors.unpublished');
+    Route::get('colors/published/{id}', 'ShopColorController@published')->name('shop-colors.published');
+    Route::delete('colors/delete/{id}', 'ShopColorController@destroy')->name('shop-colors.destroy');
+
+    //Sizes Routes
+    Route::get('sizes', 'ShopSizeController@index')->name('shop-sizes.index');
+    Route::post('sizes/store', 'ShopSizeController@store')->name('shop-sizes.store');
+    Route::get('sizes/edit/{id}', 'ShopSizeController@edit')->name('shop-sizes.edit');
+    Route::put('sizes/update', 'ShopSizeController@update')->name('shop-sizes.update');
+    Route::get('sizes/unpublished/{id}', 'ShopSizeController@unpublished')->name('shop-sizes.unpublished');
+    Route::get('sizes/published/{id}', 'ShopSizeController@published')->name('shop-sizes.published');
+    Route::delete('sizes/delete/{id}', 'ShopSizeController@destroy')->name('shop-sizes.destroy');
 });
 
 

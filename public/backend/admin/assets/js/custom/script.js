@@ -88,6 +88,71 @@
             $('#label_img_edit').css('display', 'none');
         });
 
+
+        //Product Category Edit Script
+        $(document).on('click', '#edit_product_category', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'category/edit/' + edit_id,
+                success : function (data){
+                    $('#category-edit-modal input[name="name"]').val(data.name);
+                    $('#category-edit-modal input[name="id"]').val(data.id);
+
+                    $('#category-edit-modal').modal('show');
+                }
+            });
+        });
+
+        //Product Tags Edit Script
+        $(document).on('click', '#edit_product_tag', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'tags/edit/' + edit_id,
+                success : function (data){
+                    $('#tag-edit-modal input[name="name"]').val(data.name);
+                    $('#tag-edit-modal input[name="id"]').val(data.id);
+
+                    $('#tag-edit-modal').modal('show');
+                }
+            });
+        });
+
+        //Product Color Edit Script
+        $(document).on('click', '#edit_product_color', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'colors/edit/' + edit_id,
+                success : function (data){
+                    $('#color-edit-modal input[name="name"]').val(data.name);
+                    $('#color-edit-modal input[name="id"]').val(data.id);
+
+                    $('#color-edit-modal').modal('show');
+                }
+            });
+        });
+
+        //Product Size Edit Script
+        $(document).on('click', '#edit_product_size', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'sizes/edit/' + edit_id,
+                success : function (data){
+                    $('#size-edit-modal input[name="size"]').val(data.size);
+                    $('#size-edit-modal input[name="id"]').val(data.id);
+
+                    $('#size-edit-modal').modal('show');
+                }
+            });
+        });
+
         //Client Image Show
         $(document).on('change', '#c_image1', function (e){
             e.preventDefault();

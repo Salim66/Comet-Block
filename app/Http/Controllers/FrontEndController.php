@@ -72,13 +72,32 @@ class FrontEndController extends Controller
         ]);
     }
 
-
+    /**
+     * Post Search By Search Field
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function searchByPost(Request $request){
         $search = $request -> search;
         $post_info = Post::where('title', 'like', '%'.$search.'%') -> orWhere('content', 'like', '%'.$search.'%') -> get();
         return view('frontend.post.search', [
             'post_info' => $post_info
         ]);
+    }
+
+
+    //Product Information
+
+    /**
+     * Product Page
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function productIndexPage(){
+        return view('frontend.product.shop');
+    }
+
+    public function productSinglePage(){
+        return view('frontend.product.single-shop');
     }
 
 }
