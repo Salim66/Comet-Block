@@ -21,7 +21,7 @@
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Products</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li class="{{ 'post/all' == request()->path() ? 'active' : '' }}"><a href="">All Post</a></li>
+                        <li class="{{ 'product/all' == request()->path() ? 'active' : '' }}"><a href="{{ route('product.index') }}">All Post</a></li>
                         <li class="{{ 'product/category' == request()->path() ? 'active' : '' }}"><a href="{{ route('shop-category.index') }}">Category</a></li>
                         <li class="{{ 'product/tags' == request()->path() ? 'active' : '' }}"><a href="{{ route('shop-tags.index') }}">Tags</a></li>
                         <li class="{{ 'product/colors' == request()->path() ? 'active' : '' }}"><a href="{{ route('shop-colors.index') }}">Colors</a></li>

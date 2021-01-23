@@ -153,6 +153,13 @@
             });
         });
 
+        //Product Image Load Script
+        $(document).on('change', '#p_image', function (e){
+            e.preventDefault();
+            const product_image_url = URL.createObjectURL(e.target.files[0]);
+            $('#product_image_load').attr('src', product_image_url);
+        });
+
         //Client Image Show
         $(document).on('change', '#c_image1', function (e){
             e.preventDefault();

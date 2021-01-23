@@ -22,10 +22,10 @@
             <div class="row">
                 <div class="col-md-12">
                     @include('validate')
-                    <a class="btn btn-primary" href="#post-add-modal" data-toggle="modal">Add new Post</a>
+                    <a class="btn btn-primary" href="#product-add-modal" data-toggle="modal">Add new Product</a>
                     <div class="card">
                         <div class="card-header" style="background-color: lightpink">
-                            <h4 class="card-title">All Posts</h4>
+                            <h4 class="card-title">All Product</h4>
                         </div>
                         <div class="card-body" style="background-color: lightblue">
                             <div class="table-responsive">
@@ -34,10 +34,14 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Title</th>
+                                        <th>Regular Price</th>
+                                        <th>Sell Price</th>
                                         <th>Category</th>
-                                        <th>Tag</th>
+                                        <th>Tags</th>
+                                        <th>Colors</th>
+                                        <th>Sizes</th>
                                         <th>Created By</th>
-                                        <th>Featured Image</th>
+                                        <th>Product Image</th>
                                         <th>Time</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -49,6 +53,8 @@
                                     <tr>
                                         <td>{{ $loop -> index + 1 }}</td>
                                         <td>{{ $data -> title }}</td>
+                                        <td>{{ $data -> regular_price }}</td>
+                                        <td>{{ $data -> sell_price }}</td>
                                         <td>
                                             @foreach($data -> categories as $category)
                                                 {{ $category -> name }} |
@@ -60,11 +66,21 @@
                                             @endforeach
                                         </td>
                                         <td>
+                                            @foreach($data -> colors as $color)
+                                                {{ $color -> name }} |
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($data -> sizes as $size)
+                                                {{ $size -> size }} |
+                                            @endforeach
+                                        </td>
+                                        <td>
                                             {{ $data -> author -> name }}
                                         </td>
                                         <td>
-                                            @if( !empty($data -> featured_image) )
-                                            <img style="width: 40px; height: 40px;" src="{{ URL::to('/') }}/media/posts/images/{{ $data -> featured_image }}" alt="">
+                                            @if( !empty($data -> product_image) )
+                                            <img style="width: 40px; height: 40px;" src="{{ URL::to('/') }}/media/products/images/{{ $data -> product_image }}" alt="">
                                             @endif
                                         </td>
                                         <td>
@@ -79,12 +95,12 @@
                                         </td>
                                         <td>
                                             @if( $data -> status == 'Published' )
-                                                <a href="{{ route('post.unpublished', $data ->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
+                                                <a href="{{ route('product.unpublished', $data ->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
                                             @else
-                                                <a href="{{ route('post.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('product.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                             @endif
                                             <a id="edit_post" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#" data-toggle="modal">Edit</a>
-                                                <form class="d-inline" action="{{ route('post.destroy', $data -> id) }}" method="POST">
+                                                <form class="d-inline" action="{{ route('product.destroy', $data -> id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger btn-sm">Delete</button>
@@ -102,16 +118,16 @@
             </div>
 
 
-{{--Start Post Add Modal--}}
-            <div id="post-add-modal" class="modal fade">
+{{--Start Product Add Modal--}}
+            <div id="product-add-modal" class="modal fade">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add New Post</h4>
+                            <h4 class="modal-title">Add New Product</h4>
                             <button class="close float-left" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <input name="title" class="form-control" type="text" placeholder="Title">
@@ -141,11 +157,43 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label id="label_img" class="text-success bg-gradient" for="f_image"><i class="far fa-file-image fa-5x"></i></label>
-                                    <input name="featured_image" class="d-none" type="file" id="f_image" >
-                                    <img class="w-100" id="post_featured_image_load" src="" alt="">
+                                    <div class="col-md-10">
+                                        <label for="">Colors</label>
+                                        @foreach($color_info as $color)
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="color[]" value="{{ $color -> id }}"> {{ $color -> name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-                                <textarea id="text_editor" name="content"></textarea>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="">Size</label>
+                                        @foreach($size_info as $size)
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="size[]" value="{{ $size -> id }}"> {{ $size -> size }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="d-block">Regular Price: </label>
+                                    <input type="text" name="regular_price">
+                                </div>
+                                <div class="form-group">
+                                    <label class="d-block">Sell Price: </label>
+                                    <input type="text" name="sell_price">
+                                </div>
+                                <div class="form-group">
+                                    <label id="p_label_img" class="text-success bg-gradient" for="p_image"><i class="far fa-file-image fa-5x"></i></label>
+                                    <input name="product_image" class="d-none" type="file" id="p_image" >
+                                    <img class="w-100" id="product_image_load" src="" alt="">
+                                </div>
+                                <textarea id="text_editor" name="description"></textarea>
                                 <div class="form-group">
                                     <input class="btn btn-primary btn-block" type="submit" value="Add new">
                                 </div>
@@ -153,15 +201,15 @@
                         </div>
                     </div>
                 </div>
-            </div>{{--End Post Add Modal--}}
+            </div>{{--End Product Add Modal--}}
 
 
-            {{--Start Post Edit Modal--}}
+            {{--Start Product Edit Modal--}}
             <div id="post_modal_edit" class="modal fade">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Update Post</h4>
+                            <h4 class="modal-title">Update Product</h4>
                             <button class="close float-left" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -197,7 +245,7 @@
                         </div>
                     </div>
                 </div>
-            </div>{{--End Post Edit Modal--}}
+            </div>{{--End Product Edit Modal--}}
 
         </div>
     </div>

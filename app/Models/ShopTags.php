@@ -10,4 +10,8 @@ class ShopTags extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function shops(){
+        return $this -> belongsToMany('App\Models\Shop');
+    }
 }

@@ -78,7 +78,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'post'], functi
 
 
 
-//Product Routes
+//Products Routes
 Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'product'], function (){
     //Category Routes
     Route::get('category', 'ShopCategoryController@index')->name('shop-category.index');
@@ -115,6 +115,14 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'product'], fun
     Route::get('sizes/unpublished/{id}', 'ShopSizeController@unpublished')->name('shop-sizes.unpublished');
     Route::get('sizes/published/{id}', 'ShopSizeController@published')->name('shop-sizes.published');
     Route::delete('sizes/delete/{id}', 'ShopSizeController@destroy')->name('shop-sizes.destroy');
+
+    //Product Routes
+    Route::get('all', 'ShopController@index')->name('product.index');
+    Route::post('store', 'ShopController@store')->name('product.store');
+    Route::get('unpublished/{id}', 'ShopController@unpublished')->name('product.unpublished');
+    Route::get('published/{id}', 'ShopController@published')->name('product.published');
+    Route::get('published/{id}', 'ShopController@published')->name('product.published');
+    Route::delete('delete/{id}', 'ShopController@destroy')->name('product.destroy');
 });
 
 
