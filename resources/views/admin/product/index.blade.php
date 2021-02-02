@@ -49,65 +49,65 @@
                                     </thead>
                                     <tbody>
 
-                                    @foreach( $all_data as $data )
-                                    <tr>
-                                        <td>{{ $loop -> index + 1 }}</td>
-                                        <td>{{ $data -> title }}</td>
-                                        <td>{{ $data -> regular_price }}</td>
-                                        <td>{{ $data -> sell_price }}</td>
-                                        <td>
-                                            @foreach($data -> categories as $category)
-                                                {{ $category -> name }} |
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @foreach($data -> tags as $tag)
-                                                {{ $tag -> name }} |
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @foreach($data -> colors as $color)
-                                                {{ $color -> name }} |
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @foreach($data -> sizes as $size)
-                                                {{ $size -> size }} |
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            {{ $data -> author -> name }}
-                                        </td>
-                                        <td>
-                                            @if( !empty($data -> product_image) )
-                                            <img style="width: 40px; height: 40px;" src="{{ URL::to('/') }}/media/products/images/{{ $data -> product_image }}" alt="">
-                                            @endif
-                                        </td>
-                                        <td>
-                                            {{ $data -> created_at -> diffForHumans() }}
-                                        </td>
-                                        <td>
-                                            @if( $data -> status == 'Published' )
-                                                <span class="badge badge-success">Published</span>
-                                            @else
-                                                <span class="badge badge-danger">Unpublished</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if( $data -> status == 'Published' )
-                                                <a href="{{ route('product.unpublished', $data ->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
-                                            @else
-                                                <a href="{{ route('product.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
-                                            @endif
-                                            <a id="edit_post" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#" data-toggle="modal">Edit</a>
-                                                <form class="d-inline" action="{{ route('product.destroy', $data -> id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                                </form>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                        @foreach( $all_data as $data )
+                                            <tr>
+                                                <td>{{ $loop -> index + 1 }}</td>
+                                                <td>{{ $data -> title }}</td>
+                                                <td>{{ $data -> regular_price }}</td>
+                                                <td>{{ $data -> sell_price }}</td>
+                                                <td>
+                                                    @foreach($data -> categories as $category)
+                                                        {{ $category -> name }} |
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach($data -> tags as $tag)
+                                                        {{ $tag -> name }} |
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach($data -> colors as $color)
+                                                        {{ $color -> name }} |
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach($data -> sizes as $size)
+                                                        {{ $size -> size }} |
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    {{ $data -> author -> name }}
+                                                </td>
+                                                <td>
+                                                    @if( !empty($data -> product_image) )
+                                                        <img style="width: 40px; height: 40px;" src="{{ URL::to('/') }}/media/products/images/{{ $data -> product_image }}" alt="">
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{ $data -> created_at -> diffForHumans() }}
+                                                </td>
+                                                <td>
+                                                    @if( $data -> status == 'Published' )
+                                                        <span class="badge badge-success">Published</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Unpublished</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if( $data -> status == 'Published' )
+                                                        <a href="{{ route('product.unpublished', $data ->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></a>
+                                                    @else
+                                                        <a href="{{ route('product.published', $data -> id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                    @endif
+                                                    <a id="edit_product" edit_id="{{ $data->id }}" class="btn btn-warning btn-sm" href="#" data-toggle="modal">Edit</a>
+                                                    <form class="d-inline" action="{{ route('product.destroy', $data -> id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -205,7 +205,7 @@
 
 
             {{--Start Product Edit Modal--}}
-            <div id="post_modal_edit" class="modal fade">
+            <div id="product_modal_edit" class="modal fade">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -213,7 +213,7 @@
                             <button class="close float-left" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('post.update') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('product.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <div class="form-group">
@@ -221,23 +221,43 @@
                                     <input name="id" class="form-control" type="hidden" >
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Category</label>
                                     <div class="col-md-10">
-                                        <label for="">Category</label>
                                         <div class="cl"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Tags</label>
                                     <div class="col-md-10">
-                                        <label for="">Tags</label>
                                         <div class="tg"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label id="label_img_edit" class="text-success bg-gradient" for="f_image_edit"><i class="far fa-file-image fa-5x"></i></label>
-                                    <input name="featured_image" class="d-none" type="file" id="f_image_edit" >
-                                    <img class="w-100" id="post_featured_image_edit" src="" alt="">
+                                    <label for="">Colors</label>
+                                    <div class="col-md-10">
+                                        <div class="cls"></div>
+                                    </div>
                                 </div>
-                                <textarea id="text_editor_edit" name="content"></textarea>
+                                <div class="form-group">
+                                    <label for="">Sizes</label>
+                                    <div class="col-md-10">
+                                        <div class="sz"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="d-block">Regular Price: </label>
+                                    <input type="text" name="regular_price">
+                                </div>
+                                <div class="form-group">
+                                    <label class="d-block">Sell Price: </label>
+                                    <input type="text" name="sell_price">
+                                </div>
+                                <div class="form-group">
+                                    <label id="label_p_img_edit" class="text-success bg-gradient" for="p_image_edit"><i class="far fa-file-image fa-5x"></i></label>
+                                    <input name="product_image" class="d-none" type="file" id="p_image_edit" >
+                                    <img class="w-100" id="product_image_edit" src="" alt="">
+                                </div>
+                                <textarea id="text_editor_edit" name="discription"></textarea>
                                 <div class="form-group">
                                     <input class="btn btn-primary btn-block" type="submit" value="Add new">
                                 </div>

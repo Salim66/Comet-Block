@@ -1,0 +1,60 @@
+.price-range-block {
+    margin:60px;
+}
+
+.sliderText{
+    width:40%;
+    margin-bottom:30px;
+    border-bottom: 2px solid red;
+    padding: 10px 0 10px 0px;
+    font-weight:bold;
+}
+
+.ui-slider-horizontal {
+    width: 500px;
+    height: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+.ui-widget-header {
+    background: #bd2130;
+}
+.ui-widget.ui-widget-content {border: 2px solid #202020; background: white}
+.ui-slider-handle.ui-corner-all.ui-state-default {
+    width: 20px;
+    height: 20px;
+    top: -6px;
+    border-radius: 100%;
+    background: #bd2130;
+    border: 1px solid #bd2130;
+    cursor: ew-resize;
+}
+
+.price-range-search {
+    background-color: #bd2130;
+    color: #fff;
+    border: 1px solid #bd2130;
+    display: inline-block;
+    height: 32px;
+    border-radius: 5px;
+    margin:20px 0;
+    font-size:16px;
+    font-weight:
+}
+.price-range-field{
+    width: 100px;
+    height: 20px;
+    background-color:#bd2130;
+    border: 1px solid #bd2130;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 5px;
+    padding:5px;
+}
+.search-results-block{
+    position: relative;
+    display: block;
+    clear: both;
+    margin-top: 20px;
+}
+

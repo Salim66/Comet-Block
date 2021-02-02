@@ -3,7 +3,7 @@
 
 @section('main-content')
     <section class="page-title parallax">
-        <div data-parallax="scroll" data-image-src="frontend/images/bg/19.jpg" class="parallax-bg"></div>
+        <div data-parallax="scroll" data-image-src="{{ asset('frontend/images/bg/19.jpg')}}" class="parallax-bg"></div>
         <div class="parallax-overlay">
             <div class="centrize">
                 <div class="v-center">
@@ -32,6 +32,7 @@
                     <!-- Shop Menu and Search Field -->
                     @include('frontend.product.layouts.shop-menu-search')
 
+
                     @php
 
                         $product_data = App\Models\Shop::latest() -> paginate(6);
@@ -39,9 +40,9 @@
                     @endphp
 
                     <div class="container-fluid">
-                        <div class="row" id="divTodo">
+                        <div class="row">
 
-                        @foreach($product_data as $data)
+                        @foreach($tags_info -> shops as $data)
                             <div class="col-md-4 col-sm-6">
                                 <div class="shop-product">
                                     <div class="product-thumb">

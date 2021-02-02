@@ -11,37 +11,31 @@
                     <div class="col-md-6">
                         <div data-options="{&quot;animation&quot;: &quot;slide&quot;, &quot;controlNav&quot;: true}" class="flexslider nav-inside control-nav-dark">
                             <ul class="slides">
+
                                 <li>
-                                    <img src="{{ asset('frontend/images/shop/single-1.jpg')}}" alt="">
+                                    <img src="{{ URL::to('/') }}/media/products/images/{{ $single_product -> product_image }}" alt="">
                                 </li>
-                                <li>
-                                    <img src="frontend/images/shop/single-2.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="frontend/images/shop/single-3.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="frontend/images/shop/single-4.jpg" alt="">
-                                </li>
+
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-5 col-md-offset-1">
                         <div class="title mt-0">
-                            <h2>Notch Blazer in Longline<span class="red-dot"></span></h2>
+                            <h2>{{ $single_product -> title }}<span class="red-dot"></span></h2>
                             <p class="m-0">Free Shipping Worldwide</p>
                         </div>
                         <div class="single-product-price">
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <h3><del>$29.99</del><span>$24.99</span></h3>
+                                    @if(!empty($single_product -> sell_price))
+                                        <h3><del>৳ {{ $single_product -> regular_price }}</del><span>৳ {{ $single_product -> sell_price }}</span></h3>
+                                    @else
+                                        <h3><span>৳ {{ $single_product -> regular_price }}</span></h3>
+                                    @endif
                                 </div>
                                 <div class="col-xs-6 text-right"><span class="rating-stars">              <i class="ti-star full"></i><i class="ti-star full"></i><i class="ti-star full"></i><i class="ti-star full"></i><i class="ti-star"></i><span class="hidden-xs">(3 Reviews)</span></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="single-product-desc">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis repellat iste natus at impedit quo consequuntur, quam, vel saepe voluptatum minus temporibus excepturi aspernatur labore molestiae fugit tempora veritatis unde.</p>
                         </div>
                         <div class="single-product-add">
                             <form action="#" class="inline-form">
@@ -52,11 +46,26 @@
                         </div>
                         <div class="single-product-list">
                             <ul>
-                                <li><span>Sizes:</span> S, M, L, XL</li>
-                                <li><span>Colors:</span> Blue, Red, Grey</li>
-                                <li><span>Category:</span><a href="#">Blazers</a>
+
+                                <li><span>Sizes:</span>
+                                    @foreach($single_product -> sizes as $size)
+                                        {{ $size -> size }},
+                                    @endforeach
                                 </li>
-                                <li><span>Tags:</span><a href="#">Outfit</a>-<a href="#">Jeans</a>
+                                <li><span>Colors:</span>
+                                    @foreach($single_product -> colors as $color)
+                                        {{ $color -> name }},
+                                    @endforeach
+                                </li>
+                                <li><span>Category:</span>
+                                    @foreach($single_product -> categories as $category)
+                                        <a href="{{ route('product.search.category', $category -> slug) }}">{{ $category -> name }}</a>,
+                                    @endforeach
+                                </li>
+                                <li><span>Tags:</span>
+                                    @foreach($single_product -> tags as $tag)
+                                        <a href="{{ route('product.search.tags', $tag -> slug) }}">{{ $tag -> name }}</a>,
+                                    @endforeach
                                 </li>
                             </ul>
                         </div>
@@ -75,9 +84,7 @@
                 </ul>
                 <div class="tab-content">
                     <div id="first-tab" role="tabpanel" class="tab-pane active">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum hic doloribus dolore explicabo, a voluptate optio culpa, aut nulla voluptatem sit nam sed molestias adipisci! Eius nulla beatae, quidem quae. Praesentium eveniet ullam quos
-                            accusamus, ea nemo cupiditate. Nemo harum sit, necessitatibus voluptates, sapiente dolorum minima, placeat explicabo consequuntur at neque deserunt.</p>
-                        <p>Quidem illum, enim aut, minus nesciunt, distinctio inventore sunt autem numquam eveniet non asperiores unde! Corrupti modi minima doloremque, illum aperiam nemo.</p>
+                        <p>{!! Str::of(htmlspecialchars_decode($single_product -> description)) !!}</p>
                     </div>
                     <div id="second-tab" role="tabpanel" class="tab-pane">
                         <table class="table table-bordered table-striped">
@@ -167,62 +174,30 @@
             <div class="related-products">
                 <h5 class="upper">Related Products</h5>
                 <div class="row">
+                    @php
+
+                        foreach ($single_product -> categories -> take(1) as $category):
+                            foreach($category -> shops as $data):
+                    @endphp
+
+
                     <div class="col-md-3 col-sm-6">
                         <div class="shop-product">
                             <div class="product-thumb">
                                 <a href="#">
-                                    <img src="frontend/images/shop/1.jpg" alt="">
+                                    <img style="width: 300px; height: 250px;" src="{{ URL::to('/') }}/media/products/images/{{ $data -> product_image }}" alt="">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h4 class="upper"><a href="#">Premium Notch Blazer</a></h4><span>$79.99</span>
+                                <h4 class="upper"><a href="{{ route('product.single', $data -> slug) }}">{{ $data -> title }}</a></h4><span style="color: red;">৳ {{ $data -> regular_price }}</span>
                                 <div class="save-product"><a href="#"><i class="icon-heart"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="shop-product">
-                            <div class="product-thumb">
-                                <a href="#">
-                                    <img src="frontend/images/shop/2.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h4 class="upper"><a href="#">Premium Suit Blazer</a></h4><span>$199.99</span>
-                                <div class="save-product"><a href="#"><i class="icon-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="shop-product">
-                            <div class="product-thumb">
-                                <a href="#">
-                                    <img src="frontend/images/shop/3.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h4 class="upper"><a href="#">Vintage Sweatshirt</a></h4><span>$99.99</span>
-                                <div class="save-product"><a href="#"><i class="icon-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="shop-product">
-                            <div class="product-thumb">
-                                <a href="#">
-                                    <img src="frontend/images/shop/4.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h4 class="upper"><a href="#">Longline Jersey Jacket</a></h4><span>$19.99</span>
-                                <div class="save-product"><a href="#"><i class="icon-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @php
+                        endforeach; endforeach;
+                    @endphp
                 </div>
             </div>
         </div>

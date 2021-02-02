@@ -39,9 +39,9 @@
                     @endphp
 
                     <div class="container-fluid">
-                        <div class="row" id="divTodo">
+                        <div class="row">
 
-                        @foreach($product_data as $data)
+                        @foreach($shop_info as $data)
                             <div class="col-md-4 col-sm-6">
                                 <div class="shop-product">
                                     <div class="product-thumb">
@@ -63,7 +63,7 @@
                         </div>
 
                         <ul class="pagination">
-                           {{ $product_data -> links() }}
+{{--                           {{ $shop_info -> links() }}--}}
                         </ul>
 
                         <!-- end of row-->

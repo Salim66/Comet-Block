@@ -11,6 +11,7 @@
         //Text Editor
         CKEDITOR.replace('text_editor');
         CKEDITOR.replace('text_editor_edit');
+        CKEDITOR.replace('text_editor_edit_one');
 
         // //Add Data Table
         $('table#datatable').DataTable();
@@ -153,11 +154,44 @@
             });
         });
 
+        //Product Edit Script
+        $(document).on('click', '#edit_product', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'edit/' + edit_id,
+                success : function (data){
+                    $('#product_modal_edit input[name="title"]').val(data.title);
+                    $('#product_modal_edit input[name="id"]').val(data.id);
+                    $('#product_modal_edit input[name="regular_price"]').val(data.regular_price);
+                    $('#product_modal_edit input[name="sell_price"]').val(data.sell_price);
+                    $('#product_modal_edit .cl').html(data.category_list);
+                    $('#product_modal_edit .tg').html(data.tags_list);
+                    $('#product_modal_edit .cls').html(data.colors_list);
+                    $('#product_modal_edit .sz').html(data.sizes_list);
+                    $('#product_modal_edit #product_image_edit').attr('src', '/media/products/images/' + data.image);
+                    CKEDITOR.instances.text_editor_edit.setData( data.discription, function (){
+                        this.checkDirty();
+                    });
+
+                    $('#product_modal_edit').modal('show');
+                }
+            });
+        });
+
         //Product Image Load Script
         $(document).on('change', '#p_image', function (e){
             e.preventDefault();
             const product_image_url = URL.createObjectURL(e.target.files[0]);
             $('#product_image_load').attr('src', product_image_url);
+        });
+
+        //Product Edit Image Script
+        $(document).on('change', '#p_image_edit', function (e){
+            e.preventDefault();
+            const product_edit_image_url = URL.createObjectURL(e.target.files[0]);
+            $('#product_image_edit').attr('src', product_edit_image_url);
         });
 
         //Client Image Show
@@ -616,6 +650,88 @@
         //     const svu = URL.createObjectURL(e.target.files[0]);
         //     $('#slider_video_load').attr('src', svu);
         // });
+
+
+        //Portfolio Category Edit Script
+        $(document).on('click', '#edit_portfolio_category', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'category/edit/' + edit_id,
+                success : function (data){
+                    $('#portfolio-category-edit-modal input[name="name"]').val(data.name);
+                    $('#portfolio-category-edit-modal input[name="id"]').val(data.id);
+
+                    $('#portfolio-category-edit-modal').modal('show');
+                }
+            });
+        });
+
+        //Portfolio Tags Edit Script
+        $(document).on('click', '#edit_portfolio_tag', function(e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+            $.ajax({
+                url : 'tags/edit/' + edit_id,
+                success: function (data){
+                    $('#portfolio-tag-edit-modal input[name="name"]').val(data.name);
+                    $('#portfolio-tag-edit-modal input[name="id"]').val(data.id);
+
+                    $('#portfolio-tag-edit-modal').modal('show');
+                }
+            });
+        });
+
+        //Portfolio Featured Image Load Script
+        $(document).on('change', '#p_f_image', function (e){
+            e.preventDefault();
+            const image_file = URL.createObjectURL(e.target.files[0]);
+            $('#portfolio_featured_image_load').attr('src', image_file);
+        });
+
+        $(document).on('click', '#edit_portfolio', function (e){
+            e.preventDefault();
+            const edit_id = $(this).attr('edit_id');
+
+
+            $.ajax({
+                url : 'edit/' + edit_id,
+                success : function (data){
+                    $('#portfolio_modal_edit input[name="title"]').val(data.title);
+                    $('#portfolio_modal_edit input[name="id"]').val(data.id);
+                    $('#portfolio_modal_edit input[name="sub_title"]').val(data.sub_title);
+                    $('#portfolio_modal_edit .cl').html(data.category_list);
+                    $('#portfolio_modal_edit .tg').html(data.tags_list);
+                    $('#portfolio_modal_edit img#portfolio_featured_image_edit').attr('src', '/media/portfolio/images/' +data.featured_image);
+                    CKEDITOR.instances.text_editor_edit_one.setData( data.discription, function (){
+                        this.checkDirty();
+                    });
+
+
+                    $('#portfolio_modal_edit').modal('show');
+                }
+            });
+        });
+
+        //Portfolio Edit Image Load
+        $(document).on('change', '#p_f_image_edit', function (e){
+            e.preventDefault();
+            const image_url = URL.createObjectURL(e.target.files[0]);
+            $('#portfolio_featured_image_edit').attr('src', image_url);
+        });
+
+
+        //Portfolio Search By Category
+        $(document).on('click', '#category_id', function (e){
+            e.preventDefault();
+            const category_id = $(this).attr('category_id');
+            console.log(category_id);
+        });
+
+
+
 
     });
 

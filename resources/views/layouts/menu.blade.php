@@ -19,6 +19,15 @@
                 </li>
 
                 <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Portfolios</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li class="{{ 'portfolio/all' == request()->path() ? 'active' : '' }}"><a href="{{ route('portfolio.index') }}">All Portfolio</a></li>
+                        <li class="{{ 'portfolio/category' == request()->path() ? 'active' : '' }}"><a href="{{ route('portfolio.category.index') }}">Category</a></li>
+                        <li class="{{ 'portfolio/tags' == request()->path() ? 'active' : '' }}"><a href="{{ route('portfolio.tags.index') }}">Tags</a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Products</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li class="{{ 'product/all' == request()->path() ? 'active' : '' }}"><a href="{{ route('product.index') }}">All Post</a></li>
